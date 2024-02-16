@@ -23,7 +23,19 @@ const createTodo = (todoId, todoValue) => {
 
     todoLists.appendChild(todoElement);
 
+    const deleteButton = selectedByQuerySelector("#delete");
+    deleteButton.addEventListener("click", deleteTodo);
+
+};
+// delete todo
+const deleteTodo = (event) => {
+    const selectedTodo = event.target.parentElement.parentElement.parentElement;
+    todoLists.removeChild(selectedTodo);
+    showMassage("Todo is deleted","danger");
+
 }
+
+
 //create  showMassage function
 const showMassage = (text, status) => {
     messageElement.textContent = text;
@@ -36,7 +48,7 @@ const showMassage = (text, status) => {
 
 // get toDos from local storage
 const getToDosFromLocalStorage = () => {
-    return localStorage.getItem("myToDos")?
+    return localStorage.getItem("myToDos") ?
         JSON.parse(localStorage.getItem("myToDos"))
         : [];
 }
