@@ -34,6 +34,13 @@ const showMassage = (text, status) => {
     }, 1000);
 }
 
+// get toDos from local storage
+const getToDosFromLocalStorage = () => {
+    return localStorage.getItem("myToDos")?
+        JSON.parse(localStorage.getItem("myToDos"))
+        : [];
+}
+
 // add todo 
 const addTodo = (event) => {
     event.preventDefault();
@@ -48,9 +55,9 @@ const addTodo = (event) => {
 
 
     // add todo localStorage
-    const toDos = localStorage.getItem("myToDos") ? JSON.parse(localStorage.getItem("myToDos")) : [];
-    toDos.push({todoId,todoValue});
-    localStorage.setItem("myToDos",JSON.stringify(toDos));
+    const toDos = getToDosFromLocalStorage();
+    toDos.push({ todoId, todoValue });
+    localStorage.setItem("myToDos", JSON.stringify(toDos));
     inputTodo.value = "";
 }
 
