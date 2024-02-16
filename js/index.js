@@ -9,7 +9,7 @@ const container = selectedByQuerySelector(".container");
 const card = selectedByQuerySelector("#card");
 const inputTodo = selectedByQuerySelector("#inputTodo");
 const addTodoButton = selectedByQuerySelector("#addTodoButton");
-const message = selectedByQuerySelector("#message");
+const messageElement = selectedByQuerySelector("#message");
 const todoLists = selectedByQuerySelector("#lists");
 const todoForm = selectedByQuerySelector(".todo-form");
 
@@ -19,13 +19,19 @@ const createTodo = (todoId, todoValue) => {
     todoElement.id = todoId;
     todoElement.innerHTML = `<span>${todoValue}</span>
     <span><button class="btn" id="delete"><i class="fa fa-trash"></i></button></span>`;
+    todoElement.classList.add("li-style");
 
     todoLists.appendChild(todoElement);
 
 }
 //create  showMassage function
-const showMassage = () => {
-
+const showMassage = (text, status) => {
+    messageElement.textContent = text;
+    messageElement.classList.add(`bg-${status}`);
+    setTimeout(() => {
+        messageElement.textContent = "";
+        messageElement.classList.remove(`bg-${status}`);
+    }, 1000);
 }
 
 // add todo 
@@ -38,7 +44,14 @@ const addTodo = (event) => {
     // generate uniq id 
     const todoId = Date.now().toString();
     createTodo(todoId, todoValue);
-    showMassage();
+    showMassage('Todo is created', "success");
+
+
+    // add todo localStorage
+    const toDos = localStorage.getItem("myToDos") ? JSON.parse(localStorage.getItem("myToDos")) : [];
+    toDos.push({todoId,todoValue});
+    localStorage.setItem("myToDos",JSON.stringify(toDos));
+    inputTodo.value = "";
 }
 
 // adding add event listener 
